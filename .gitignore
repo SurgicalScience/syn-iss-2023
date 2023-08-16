@@ -1,3 +1,2 @@
 .vscode/**
 *.pyc
-docker/templates/task1-binary/predictions/*.png
