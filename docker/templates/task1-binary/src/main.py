@@ -3,6 +3,7 @@ import os
 import glob
 from os.path import join as osjoin
 import csv
+from segment_binary import segment
 
 if len(sys.argv) != 4:
     raise(RuntimeError(f"Expected 3 arguments, was provided {len(sys.argv)-1} argument(s)."))
@@ -29,3 +30,13 @@ if not os.path.exists(input_dir_path):
 if not os.path.exists(output_dir_path):
     os.makedirs(output_dir_path)
 
+# read csv file containing file identifiers
+# csv file contains a single column specifying the identifiers for the images
+# such that the input image filename can be constructed as s-<identifier>.png
+with open(test_csv_path, "r") as csvfile:
+    reader_obj = csv.reader(csvfile)
+    for row in reader_obj:
+        input_image_path = osjoin(input_dir_path, f"s-{row[0]}.png")
+        if not os.path.exists(input_image_path):
+            FileNotFoundError(f"Could not find input image at: {input_image_path}")
+        segment(input_image_path, osjoin(output_dir_path, f"pred-{row[0]}.png"))
