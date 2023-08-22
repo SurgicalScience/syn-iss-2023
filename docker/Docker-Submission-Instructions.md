@@ -10,7 +10,7 @@ To upload any files to Synapse you must be a certified user. See this link for d
 
 This document covers the details related to creating the docker images for submitting to the Syn-ISS sub-challenge.
 
-> **Note:**
+> [!NOTE]
 > In order to be considered as a valid submission for the Syn-ISS challenge the participant is required to submit both the Docker image and their writeup. 
 
 Please refer to the Docker Guide for instructions on how to [get started with Docker](https://docs.docker.com/get-docker/). 
