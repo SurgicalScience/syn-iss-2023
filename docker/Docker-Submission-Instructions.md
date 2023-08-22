@@ -10,8 +10,8 @@ To upload any files to Synapse you must be a certified user. See this link for d
 
 This document covers the details related to creating the docker images for submitting to the Syn-ISS sub-challenge.
 
-[!NOTE]
-In order to be considered as a valid submission for the Syn-ISS challenge the participant is required to submit both the Docker image and their writeup. 
+> **Note:**
+> In order to be considered as a valid submission for the Syn-ISS challenge the participant is required to submit both the Docker image and their writeup. 
 
 Please refer to the Docker Guide for instructions on how to [get started with Docker](https://docs.docker.com/get-docker/). 
 
@@ -56,8 +56,8 @@ Commented blocks specifying the region in the code flow of the `segment()` funct
 # ===========================================================
 ```
 
-[!IMPORTANT]
-Please do not edit the other portions of the `segment.py`.
+> **IMPORTANT**
+> Please do not edit the other portions of the `segment.py`.
 
 ### Update requirements.txt for your Python dependencies
 The Docker template relies on a `requirements.txt` file to download and install any Python dependencies needed to run the Docker image and get the desired outputs.
