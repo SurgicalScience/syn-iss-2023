@@ -3,7 +3,7 @@ import os
 import glob
 from os.path import join as osjoin
 import csv
-from segment_binary import segment
+from segment import segment
 
 if len(sys.argv) != 4:
     raise(RuntimeError(f"Expected 3 arguments, was provided {len(sys.argv)-1} argument(s)."))

@@ -2,6 +2,15 @@ from skimage.io import imsave, imread
 from skimage.color import label2rgb
 import numpy as np
 
+# ===========================================================
+# START PARTICIPANT CODE
+# Please include import statements needed for your code here.
+
+
+# End of your import statements.
+# END PARTICIPANT CODE
+# ===========================================================
+
 def segment(input_image_path, output_mask_path):
     """
     Segment the provided image and save the result in an image file.
@@ -25,6 +34,8 @@ def segment(input_image_path, output_mask_path):
     # The code below is to ensure that the scripts function and produce output in desired format. 
     # The code is simply creating a copy of sample groundtruth masks. 
     # The test data will NOT contain such groundtruth masks. 
+    # 
+    # START PARTICIPANT CODE
     # ===============================================
 
     # dummy predictions - creating predictions using the groundtruth images 
@@ -36,6 +47,7 @@ def segment(input_image_path, output_mask_path):
 
 
     # ================================================
+    # END PARTICIPANT CODE
     # End of your code. DO NOT modify the code beyond this point.
     # ================================================
 
