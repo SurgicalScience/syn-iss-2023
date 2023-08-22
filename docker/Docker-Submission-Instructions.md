@@ -56,7 +56,7 @@ Commented blocks specifying the region in the code flow of the `segment()` funct
 # ===========================================================
 ```
 
-> **IMPORTANT**
+> [!IMPORTANT]
 > Please do not edit the other portions of the `segment.py`.
 
 ### Update requirements.txt for your Python dependencies
