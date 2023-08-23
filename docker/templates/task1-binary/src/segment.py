@@ -3,12 +3,12 @@ from skimage.color import label2rgb
 import numpy as np
 
 # ===========================================================
-# START PARTICIPANT CODE
 # Please include import statements needed for your code here.
+# START PARTICIPANT CODE
 
 
-# End of your import statements.
 # END PARTICIPANT CODE
+# End of your import statements.
 # ===========================================================
 
 def segment(input_image_path, output_mask_path):

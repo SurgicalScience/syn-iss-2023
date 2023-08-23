@@ -1,26 +1,30 @@
 # Docker Submission Instructions
 
+### Notes
+* *Please contact the organizers using the [Discussion Forum](https://www.synapse.org/#!Synapse:syn50908388/discussion/default) or [email](mailto:endovis-ds@surgicalscience.com) if you have any questions regarding this step of the challenge. We understand that this may be new to some participants and we would like to help resolve any issues faced.*
 
-*Please contact the organizers using the [Discussion Forum](https://www.synapse.org/#!Synapse:syn50908388/discussion/default) or [email](mailto:endovis-ds@surgicalscience.com) if you have any questions regarding this step of the challenge. We understand that this may be new to some participants and we would like to help resolve any issues faced.*
-
-**Source:**
+* **Source:**
 These instructions have been created referring to  the instructions from the [SimCol-to-3D 2022](https://www.synapse.org/#!Synapse:syn28548633/wiki/617244) challenge. 
-
-To upload any files to Synapse you must be a certified user. See this link for details on [how to get certified](https://help.synapse.org/docs/Synapse-User-Account-Types.2007072795.html#SynapseUserAccountTypes-CertifiedUser).
-
-This document covers the details related to creating the docker images for submitting to the Syn-ISS sub-challenge.
 
 > [!NOTE]
 > In order to be considered as a valid submission for the Syn-ISS challenge the participant is required to submit both the Docker image and their writeup. 
 
-Please refer to the Docker Guide for instructions on how to [get started with Docker](https://docs.docker.com/get-docker/). 
+* To upload any files to Synapse you must be a certified user. See this link for details on [how to get certified](https://help.synapse.org/docs/Synapse-User-Account-Types.2007072795.html#SynapseUserAccountTypes-CertifiedUser).
+
+* Please refer to the Docker Guide for instructions on how to [get started with Docker](https://docs.docker.com/get-docker/). 
+
+### Overview
+This document covers the details related to creating the docker images for submitting to the Syn-ISS sub-challenge.
 
 ### What is the Docker image supposed to do
 The docker image should read the test data identifiers from a CSV file and look for the corresponding images in the input directory specified when running the docker container. The docker container should write the predicted masks as image files to the specified output directory as well.
 
-The docker templates for [task 1](templates/task1-binary/) and [task 2](templates/task2-parts/) provide a Dockerfile to do this already. Below are instructions on (1) where the participant's should place their code, and (2) how they can generate a docker image for submission. 
+The docker templates for already provide a Dockerfile to do this. Below are instructions on (1) where the participant's should place their code, and (2) how they can generate a docker image for submission. 
 
 ## Editing the Docker templates 
+
+### Download the Docker templates
+The docker templates for [task 1](templates/task1-binary/) and [task2](templates/task2-parts/) can be obtained by downloading or cloing the GitHub repository locally. Please follow [this URL](https://github.com/SurgicalScience/syn-iss-2023.git) to get the repository files.
 
 ### Update the Dockerfile (optional)
 Please update the Dockerfile to specify any base image that your code needs like PyTorch, Tensorflow, NVidia. 
