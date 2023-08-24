@@ -163,6 +163,9 @@ where, <br>
 `synapse-project-ID` is the Synapse ID of your project that is being used to submit to the Syn-ISS challenge, e.g., syn150935, <br>
 `image-name` is the name of the Docker image being prepared for submission to the challenge.
 
+> [!IMPORTANT]
+> This command will fail if your Synapse user account is not a certified user account. See this link for details on [how to get certified](https://help.synapse.org/docs/Synapse-User-Account-Types.2007072795.html#SynapseUserAccountTypes-CertifiedUser).
+
 ### Verify Docker image on Synapse
 The Docker images for a project appear under the Docker navigation tab of the project. See the example image below.
 
