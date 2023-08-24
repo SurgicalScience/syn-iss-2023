@@ -90,9 +90,9 @@ Please finish the above listed tasks before proceeding further.
 Build the docker image by following these steps:
 * Open a command line tool.
 * Browse to the directory where the `Dockerfile` is located.
-* Run the following command to build the image.
+* Run the following command to build the image (please check that you have included the `.` at the end of the command).
 ```Docker
-$ docker build -t <image-name>
+$ docker build -t <image-name> . 
 ```
 where,<br>
 `image-name` is the name to be given to the docker image created. 
