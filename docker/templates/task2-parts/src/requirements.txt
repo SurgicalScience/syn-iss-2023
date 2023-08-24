@@ -1,0 +1,4 @@
+# Please add any Python dependencies that your code needs under the list
+scikit-image
+numpy
+# PARTICIPANT: add dependecies below this line
