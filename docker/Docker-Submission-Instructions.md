@@ -1,7 +1,11 @@
 # Docker Submission Instructions
 
+*Useful tip: view the page outline / table of contents by clicking the icon shown in image below* 
+
+![width=200](media/show-page-outline.png)
+
 ### Important Notes
-* *Please contact the organizers using the [Discussion Forum](https://www.synapse.org/#!Synapse:syn50908388/discussion/default) or [email](mailto:endovis-ds@surgicalscience.com) if you have any questions regarding this step of the challenge. We understand that this may be new to some participants and we would like to help resolve any issues faced.*
+* Please contact the organizers using the [Discussion Forum](https://www.synapse.org/#!Synapse:syn50908388/discussion/default) or [email](mailto:endovis-ds@surgicalscience.com) if you have any questions regarding this step of the challenge. We understand that this may be new to some participants and we would like to help resolve any issues faced.
 
 * These instructions have been created referring to  the instructions from the [SimCol-to-3D 2022](https://www.synapse.org/#!Synapse:syn28548633/wiki/617244) challenge. 
 
@@ -79,7 +83,7 @@ Now that the docker template has been updated to include your model related chan
 * Downloaded the Docker template for the appropriate task from our [GitHub repository](https:`//github.com/SurgicalScience/syn-iss-2023.git). These are located under the `docker/templates/` folder.
 * Updated the files in the Docker template following the [instructions](#editing-the-docker-templates).
 
-Please finish these tasks before proceeding further.
+Please finish the above listed tasks before proceeding further.
 
 ### Building the Docker image
 
