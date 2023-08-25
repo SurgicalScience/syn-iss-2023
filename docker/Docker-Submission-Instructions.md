@@ -24,7 +24,10 @@ The docker templates already provide a Dockerfile to do this. Below are instruct
 ## Editing the Docker templates 
 
 ### Download the Docker templates
-The docker templates for [task 1](templates/task1-binary/) and [task2](templates/task2-parts/) can be obtained by downloading or cloing the GitHub repository locally. Please follow [this URL](https://github.com/SurgicalScience/syn-iss-2023.git) to get the repository files.
+The docker templates for [task 1](templates/task1-binary/) and [task2](templates/task2-parts/) can be obtained in one of the following ways:
+1. Downloading `.zip` archives of the templates from the [latest release](https://github.com/SurgicalScience/syn-iss-2023/releases/latest).
+2. Downloading the entire GitHub repository locally. Please follow [this URL](https://github.com/SurgicalScience/syn-iss-2023.git) to get the repository files.
+3. Cloning the GitHub respository using a Git client. 
 
 ### How does the code flow
 Before editing the docker template here is information about how the Docker template executes.  
