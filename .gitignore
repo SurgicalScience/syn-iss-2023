@@ -1,3 +1,4 @@
 .vscode/**
 *.pyc
 docker/templates/task1-binary/sample-test-data/predictions/*.*
+docker/templates/task2-parts/sample-test-data/predictions/*.*
