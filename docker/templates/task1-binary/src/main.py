@@ -35,8 +35,12 @@ if not os.path.exists(output_dir_path):
 # such that the input image filename can be constructed as s-<identifier>.png
 with open(test_csv_path, "r") as csvfile:
     reader_obj = csv.reader(csvfile)
+    row_counter = 0
     for row in reader_obj:
         input_image_path = osjoin(input_dir_path, f"s-{row[0]}.png")
+        row_counter += 1
         if not os.path.exists(input_image_path):
             FileNotFoundError(f"Could not find input image at: {input_image_path}")
+        print(f"Segmenting image {row_counter:03d}: s-{row[0]}.png")
         segment(input_image_path, osjoin(output_dir_path, f"pred-{row[0]}.png"))
+        print("Done.")
