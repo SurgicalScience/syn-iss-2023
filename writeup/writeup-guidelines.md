@@ -1,14 +1,8 @@
+# Writeup Guidelines
 
-# Writeup Submission Instructions
+*These guidelines were largely adopted from the SAR-RARP50 challenge [HERE](https://www.synapse.org/#!Synapse:syn27618412/wiki/).*
 
-## Preparing the writeup
-
-The writeup should be no more than 4 pages in length using the LNCS format. Details about the [LNCS format are here](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines). 
-These guidelines were largely adopted from the SAR-RARP50 challenge [HERE](https://www.synapse.org/#!Synapse:syn27618412/wiki/).
-
-**A method write-up must be completed for your final submission to be scored.**
-
-Below is a template for write-ups that participants will need to use to describe the methods and algorithms used to compute their final submission to the Syn-ISS Challenge. It is encouraged to include citations and links to source code repositories if applicable. If you have source code publicly available (e.g., GitHub, BitBucket), please provide the link to your source code accordingly.
+Each participating team should prepare their writeup following these guidelines. It is encouraged to include citations and links to source code repositories if applicable. If you have source code publicly available (e.g., GitHub, BitBucket), please provide the link to your source code accordingly.
 
 Please make sure to include the following information.
 
@@ -52,9 +46,3 @@ Please cover the following points when describing your methods and results:
 * Include any preliminary results that can support the submission. 
 * Provide a discussion of the strengths and weaknesses of the challenge submission (cases where the method is likely to work best/worst). 
 * Finally, provide a brief insight into the future directions that could be followed to improve the author's model performances.
-
-## Submitting writeup to Synapse
-
-Your writeup submission must include the following files inside a file archive. 
-* Source file of writeup
-* PDF version of writeup

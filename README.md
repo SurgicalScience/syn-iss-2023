@@ -11,4 +11,4 @@ Participants must submit the following files:
 
 Please follow the links below to view instructions:
 * [Docker Submission Instructions](docker/Docker-Submission-Instructions.md)
-* [Writeup Submission Instructions](Writeup-Submission-Instructions.md)
+* [Writeup Submission Instructions](writeup/Writeup-Submission-Instructions.md)
