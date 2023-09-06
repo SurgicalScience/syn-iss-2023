@@ -14,7 +14,7 @@ evaluate-task2-parts.py .\parts\test.csv  .\parts\team-medhacker\predictions .\p
 
 Example of folders structure used by the organizers for challenge submissions:
 
-"""|__ binary/
+'''|__ binary/
     |
     |__ test.csv
     |
@@ -37,4 +37,4 @@ Example of folders structure used by the organizers for challenge submissions:
     |       |__ ...
     |
     |__ team-medhacker/
-        |__ ..."""
+        |__ ...'''
