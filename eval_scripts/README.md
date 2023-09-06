@@ -19,7 +19,7 @@ Example of folders structure used by the organizers for challenge submissions:
     |__ test.csv
     |
     |__ groundtruth/
-    |   |__ b-qwrnkladsfsa.png
+    |   |__ b-asdasdsadasd.png
     |   |__ b-qwrnkladsfsa.png
     |   |__ ...
     |
