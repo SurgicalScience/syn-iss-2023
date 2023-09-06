@@ -1,16 +1,16 @@
 Do not make any changes to the scripts.
 
 The following variables are to be pointed to using arguments via the command line:
-* `test_csv_path = sys.argv[1] # READ IN`
-* `predicted_masks_path = sys.argv[2] # READ IN`
-* `groundtruth_masks_path = sys.argv[3] # READ IN` 
-* `metrics_csv_path = sys.argv[4] # OUTPUT`
+`test_csv_path = sys.argv[1] # READ IN`
+`predicted_masks_path = sys.argv[2] # READ IN`
+`groundtruth_masks_path = sys.argv[3] # READ IN`
+`metrics_csv_path = sys.argv[4] # OUTPUT`
 
 Example command line code for the binary task 1 script:
-* `python evaluate-task1-binary.py .\binary\test.csv  .\binary\team-xyz\predictions .\binary\groundtruth .\binary\team-xyz\metrics`
+`python evaluate-task1-binary.py .\binary\test.csv  .\binary\team-xyz\predictions .\binary\groundtruth .\binary\team-xyz\metrics`
 
 Example command line code for the parts task 2 script:
-* `evaluate-task2-parts.py .\parts\test.csv  .\parts\team-medhacker\predictions .\parts\groundtruth .\parts\team-medhacker\metrics`
+`python evaluate-task2-parts.py .\parts\test.csv  .\parts\team-medhacker\predictions .\parts\groundtruth .\parts\team-medhacker\metrics`
 
 Example of folders structure used by the organizers for challenge submissions:
 
@@ -37,4 +37,4 @@ Example of folders structure used by the organizers for challenge submissions:
     |       |__ ...
     |
     |__ team-medhacker/
-        |__ ...
+        |__ ...```
