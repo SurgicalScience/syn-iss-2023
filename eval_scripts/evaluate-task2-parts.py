@@ -102,7 +102,6 @@ metrics_list_dict = {
 # loop through images in directory
 with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
-    next(reader)  # skip the header row
     for row in reader:
         image_name = row[0]
         image_hash = image_name 
