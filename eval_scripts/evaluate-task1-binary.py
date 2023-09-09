@@ -100,9 +100,6 @@ metrics_list = []
 
 with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
-    # skip the header row
-    next(reader)
-    
     # loop through each row in the CSV file
     for row in reader:
         image_name = row[0]  
