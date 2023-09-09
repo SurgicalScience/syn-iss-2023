@@ -90,10 +90,7 @@ def calculate_hd_skimage(gt_mask, pred_mask, segmentation_type):
     else:
         RuntimeError(f"Incorrect segmentation type specified. Should be one of \"binary\" or \"parts\", user specified: {segmentation_type}.")
         return
-    # convert images into a label image
-    gt_label = convert_rgb2label(gt_mask, dict_colors)
-    pred_label = convert_rgb2label(pred_mask, dict_colors)
-    return hausdorff_distance(find_boundaries(gt_label), find_boundaries(pred_label))
+    return hausdorff_distance(find_boundaries(gt_mask), find_boundaries(pred_mask))
 
 
 metrics_list = []
@@ -104,7 +101,6 @@ with open(test_csv_path, 'r') as file:
     for row in reader:
         image_name = row[0]  
         image_hash = image_name 
-        
         print(image_hash) 
 
         # read ground truth mask image
@@ -112,17 +108,19 @@ with open(test_csv_path, 'r') as file:
         if not os.path.exists(gt_path):
             continue  # skip if ground truth mask does not exist
         gt = np.array(Image.open(gt_path))
+        gt_label = convert_rgb2label(gt, {1: [255, 255, 255]})
 
         # check if predicted mask exists
         pm_path = os.path.join(predicted_masks_path, f"pred-{image_hash}.png")
         if os.path.exists(pm_path):
             pm = np.array(Image.open(pm_path))
+            pm_label = convert_rgb2label(pm, {1: [255, 255, 255]})
 
-            iou = calculate_iou(gt, pm)
-            f_score = calculate_f_score(gt, pm)
-            recall = calculate_recall(gt, pm)
-            precision = calculate_precision(gt, pm)
-            hd = calculate_hd_skimage(gt, pm, segmentation_type="binary")
+            iou = calculate_iou(gt_label == 1, pm_label == 1)
+            f_score = calculate_f_score(gt_label == 1, pm_label == 1)
+            recall = calculate_recall(gt_label == 1, pm_label == 1)
+            precision = calculate_precision(gt_label == 1, pm_label == 1)
+            hd = calculate_hd_skimage(gt_label, pm_label, segmentation_type="binary")
             
             # get names of gt and pm images without extension
             gt_name = os.path.splitext(os.path.basename(gt_path))[0]
