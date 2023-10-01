@@ -129,16 +129,18 @@ with open(test_csv_path, 'r') as file:
 
         # loop through class labels and calculate metrics
         for class_label in range(1, len(dict_colors)):
-            iou = calculate_iou(gt == class_label, pm == class_label)
-            f_score = calculate_f_score(gt == class_label, pm == class_label)
-            recall = calculate_recall(gt == class_label, pm == class_label)
-            
-            if pm is not None and np.sum(pm == class_label) > 0:
+            if pm is not None:
+                iou = calculate_iou(gt == class_label, pm == class_label)
+                f_score = calculate_f_score(gt == class_label, pm == class_label)
+                recall = calculate_recall(gt == class_label, pm == class_label)    
                 precision = calculate_precision(gt == class_label, pm == class_label)
                 hd_distance = calculate_hd_skimage(gt == class_label, pm == class_label)
                 if hd_distance == float('inf'):
                     hd_distance = MAX_HD_VALUE
             else:
+                iou = 0.0
+                f_score = 0.0
+                recall = 0.0
                 precision = 0.0
                 hd_distance = MAX_HD_VALUE
             
