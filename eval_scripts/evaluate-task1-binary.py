@@ -14,6 +14,8 @@ predicted_masks_path = sys.argv[2]
 groundtruth_masks_path = sys.argv[3] 
 metrics_csv_path = sys.argv[4] 
 
+MAX_HD_VALUE = 1100.0
+
 def calculate_iou(gt_mask, pred_mask):
     intersection = np.logical_and(gt_mask, pred_mask)
     union = np.logical_or(gt_mask, pred_mask)
@@ -121,6 +123,8 @@ with open(test_csv_path, 'r') as file:
             recall = calculate_recall(gt_label == 1, pm_label == 1)
             precision = calculate_precision(gt_label == 1, pm_label == 1)
             hd = calculate_hd_skimage(gt_label, pm_label, segmentation_type="binary")
+            if hd == float('inf'):
+                hd = MAX_HD_VALUE
             
             # get names of gt and pm images without extension
             gt_name = os.path.splitext(os.path.basename(gt_path))[0]
@@ -130,7 +134,7 @@ with open(test_csv_path, 'r') as file:
             metrics_list.append((gt_name, pm_name, iou, f_score, recall, precision, hd))
         else:
             # if predicted mask does not exist, assign default values of 0 for fail
-            metrics_list.append((gt_name, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+            metrics_list.append((gt_name, "No_Pred_Mask", 0.0, 0.0, 0.0, 0.0, MAX_HD_VALUE))
         
         # print metrics: CAN COMMENT OUT
         print("Image_gt:", gt_name)

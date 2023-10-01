@@ -20,6 +20,8 @@ dict_colors = {
     3: (49, 205, 49), # jaw
 }
 
+MAX_HD_VALUE = 1100.0
+
 def calculate_iou(gt_mask, pred_mask):
     intersection = np.logical_and(gt_mask, pred_mask)
     union = np.logical_or(gt_mask, pred_mask)
@@ -129,9 +131,11 @@ with open(test_csv_path, 'r') as file:
             if pm is not None and np.sum(pm == class_label) > 0:
                 precision = calculate_precision(gt == class_label, pm == class_label)
                 hd_distance = calculate_hd_skimage(gt == class_label, pm == class_label)
+                if hd_distance == float('inf'):
+                    hd_distance = MAX_HD_VALUE
             else:
                 precision = 0.0
-                hd_distance = "nan"
+                hd_distance = MAX_HD_VALUE
             
             # calculate names for the classes
             gt_name_class = f"p-{image_name}.png"
