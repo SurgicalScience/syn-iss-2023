@@ -29,10 +29,11 @@ def calculate_iou(gt_mask, pred_mask):
     return iou
 
 def calculate_f_score(gt_mask, pred_mask):
+    # if pred and groundtruth are empty then return 1.0 instead of nan
+    if np.sum(pred_mask) + np.sum(gt_mask) == 0:
+        return 1.0
     intersection = np.logical_and(gt_mask, pred_mask)
-    precision = np.sum(intersection) / np.sum(pred_mask)
-    recall = np.sum(intersection) / np.sum(gt_mask)
-    f_score = 2 * (precision * recall) / (precision + recall)
+    f_score = 2 * intersection / (np.sum(gt_mask) + np.sum(pred_mask))
     return f_score
 
 def calculate_recall(gt_mask, pred_mask):
