@@ -105,8 +105,7 @@ metrics_list_dict = {
 with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
     for row in reader:
-        image_name = row[0]
-        image_hash = image_name 
+        image_hash = row[0]
         # read ground truth mask
         gt_path = os.path.join(groundtruth_masks_path, f"p-{image_hash}.png")
         if not os.path.exists(gt_path):
@@ -138,8 +137,8 @@ with open(test_csv_path, 'r') as file:
                 hd_distance = MAX_HD_VALUE
             
             # calculate names for the classes
-            gt_name_class = f"p-{image_name}.png"
-            pm_name_class = f"pred-{image_hash}.png" if pm is not None else "No_Pred_Mask"
+            gt_name_class = f"p-{image_hash}"
+            pm_name_class = f"pred-{image_hash}" if pm is not None else "No_Pred_Mask"
             
             metrics_row = [gt_name_class, pm_name_class, iou, f_score, recall, precision, hd_distance]
             # append the metrics_row to the corresponding metrics list in the dictionary

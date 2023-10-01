@@ -101,10 +101,7 @@ with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
     # loop through each row in the CSV file
     for row in reader:
-        image_name = row[0]  
-        image_hash = image_name 
-        print(image_hash) 
-
+        image_hash = row[0]
         # read ground truth mask image
         gt_path = os.path.join(groundtruth_masks_path, f"b-{image_hash}.png")
         if not os.path.exists(gt_path):
@@ -127,8 +124,8 @@ with open(test_csv_path, 'r') as file:
                 hd = MAX_HD_VALUE
             
             # get names of gt and pm images without extension
-            gt_name = os.path.splitext(os.path.basename(gt_path))[0]
-            pm_name = os.path.splitext(os.path.basename(pm_path))[0]
+            gt_name = f"b-{image_hash}"
+            pm_name = f"pred-{image_hash}"
             
             # append the metrics to the metrics_list
             metrics_list.append((gt_name, pm_name, iou, f_score, recall, precision, hd))
