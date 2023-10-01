@@ -37,19 +37,24 @@ def calculate_f_score(gt_mask, pred_mask):
     return f_score
 
 def calculate_recall(gt_mask, pred_mask):
+    if np.sum(gt_mask) == 0:
+        return np.nan
     intersection = np.logical_and(gt_mask, pred_mask)
     recall = np.sum(intersection) / np.sum(gt_mask)
     return recall
 
 def calculate_precision(gt_mask, pred_mask):
+    # precision is undefined when prediction is empty 
+    # but this returns 0.0 to avoid impact on rankings.
+    # returns nan when groundtruth is empty as well
+    if np.sum(pred_mask) == 0:
+        if np.sum(gt_mask) == 0:
+            return np.nan
+        else: 
+            return 0.0
     intersection = np.logical_and(gt_mask, pred_mask)
-    pred_positive_pixels = np.sum(pred_mask)
-    
-    if pred_positive_pixels == 0:
-        return 0.0  # return 0.0 if there are no predicted positive pixels
-    else:
-        precision = np.sum(intersection) / pred_positive_pixels
-        return precision
+    precision = np.sum(intersection) / np.sum(pred_mask)
+    return precision
 
 def convert_rgb2label(img_rgb, dict_colors):
     """

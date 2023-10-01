@@ -31,11 +31,21 @@ def calculate_f_score(gt_mask, pred_mask):
     return f_score
 
 def calculate_recall(gt_mask, pred_mask):
+    if np.sum(gt_mask) == 0:
+        return np.nan
     intersection = np.logical_and(gt_mask, pred_mask)
     recall = np.sum(intersection) / np.sum(gt_mask)
     return recall
 
 def calculate_precision(gt_mask, pred_mask):
+    # precision is undefined when prediction is empty 
+    # but this returns 0.0 to avoid impact on rankings.
+    # returns nan when groundtruth is empty as well
+    if np.sum(pred_mask) == 0:
+        if np.sum(gt_mask) == 0:
+            return np.nan
+        else: 
+            return 0.0
     intersection = np.logical_and(gt_mask, pred_mask)
     precision = np.sum(intersection) / np.sum(pred_mask)
     return precision
