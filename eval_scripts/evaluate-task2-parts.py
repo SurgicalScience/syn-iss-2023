@@ -74,12 +74,14 @@ def convert_rgb2label(img_rgb, dict_colors):
         Background pixels (i.e. pixels not matching specified colors) have a
         value of 0.
     """
-    if img_rgb.shape[2] != 3:
+    if img_rgb.shape[2] < 3:
         raise(IndexError(f"Supplied RGB image has {img_rgb.shape[2]} dimensions instead of expected 3 dimensions."))
     
     img_label = np.zeros((img_rgb.shape[0], img_rgb.shape[1]), dtype=np.uint8)
     for k, v in dict_colors.items():
-        roi = np.all(img_rgb == v, axis=-1)
+        roi = ((img_rgb[:,:,0] == v[0])
+                & (img_rgb[:,:,1] == v[1])
+                & (img_rgb[:,:,2] == v[2]))
         img_label[roi] = k
     return img_label
 
@@ -112,6 +114,7 @@ with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
     for row in reader:
         image_hash = row[0]
+        print(f"Evaluating image: {image_hash} ...")
         # read ground truth mask
         gt_path = os.path.join(groundtruth_masks_path, f"p-{image_hash}.png")
         if not os.path.exists(gt_path):

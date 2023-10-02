@@ -113,6 +113,7 @@ with open(test_csv_path, 'r') as file:
     # loop through each row in the CSV file
     for row in reader:
         image_hash = row[0]
+        print(f"Evaluating image: {image_hash} ...")
         # read ground truth mask image
         gt_path = os.path.join(groundtruth_masks_path, f"b-{image_hash}.png")
         if not os.path.exists(gt_path):
@@ -143,15 +144,7 @@ with open(test_csv_path, 'r') as file:
         else:
             # if predicted mask does not exist, assign default values of 0 for fail
             metrics_list.append((gt_name, "No_Pred_Mask", 0.0, 0.0, 0.0, 0.0, MAX_HD_VALUE))
-        
-        # print metrics: CAN COMMENT OUT
-        print("Image_gt:", gt_name)
-        print("Image_pm:", pm_name)
-        print("IOU:", iou)
-        print("F-Score:", f_score)
-        print("Recall:", recall)
-        print("Precision:", precision)
-        print("HD:", hd)
+
 
 full_csv_path = os.path.join(metrics_csv_path, "metrics.csv")
 
