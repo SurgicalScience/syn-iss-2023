@@ -17,9 +17,12 @@ metrics_csv_path = sys.argv[4]
 MAX_HD_VALUE = 1100.0
 
 def calculate_iou(gt_mask, pred_mask):
-    intersection = np.logical_and(gt_mask, pred_mask)
-    union = np.logical_or(gt_mask, pred_mask)
-    iou = np.sum(intersection) / np.sum(union)
+    union = np.sum(np.logical_or(gt_mask, pred_mask))
+    # if pred and groundtruth are empty then return 1.0 instead of nan
+    if union == 0:
+        return np.nan
+    intersection = np.sum(np.logical_and(gt_mask, pred_mask))
+    iou = intersection / union
     return iou
 
 def calculate_f_score(gt_mask, pred_mask):
