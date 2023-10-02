@@ -14,6 +14,8 @@ predicted_masks_path = sys.argv[2]
 groundtruth_masks_path = sys.argv[3] 
 metrics_csv_path = sys.argv[4] 
 
+MAX_HD_VALUE = 1100.0
+
 def calculate_iou(gt_mask, pred_mask):
     intersection = np.logical_and(gt_mask, pred_mask)
     union = np.logical_or(gt_mask, pred_mask)
@@ -21,18 +23,29 @@ def calculate_iou(gt_mask, pred_mask):
     return iou
 
 def calculate_f_score(gt_mask, pred_mask):
+    # if pred and groundtruth are empty then return 1.0 instead of nan
+    if np.sum(pred_mask) + np.sum(gt_mask) == 0:
+        return 1.0
     intersection = np.logical_and(gt_mask, pred_mask)
-    precision = np.sum(intersection) / np.sum(pred_mask)
-    recall = np.sum(intersection) / np.sum(gt_mask)
-    f_score = 2 * (precision * recall) / (precision + recall)
+    f_score = 2 * intersection / (np.sum(gt_mask) + np.sum(pred_mask))
     return f_score
 
 def calculate_recall(gt_mask, pred_mask):
+    if np.sum(gt_mask) == 0:
+        return np.nan
     intersection = np.logical_and(gt_mask, pred_mask)
     recall = np.sum(intersection) / np.sum(gt_mask)
     return recall
 
 def calculate_precision(gt_mask, pred_mask):
+    # precision is undefined when prediction is empty 
+    # but this returns 0.0 to avoid impact on rankings.
+    # returns nan when groundtruth is empty as well
+    if np.sum(pred_mask) == 0:
+        if np.sum(gt_mask) == 0:
+            return np.nan
+        else: 
+            return 0.0
     intersection = np.logical_and(gt_mask, pred_mask)
     precision = np.sum(intersection) / np.sum(pred_mask)
     return precision
@@ -99,10 +112,7 @@ with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
     # loop through each row in the CSV file
     for row in reader:
-        image_name = row[0]  
-        image_hash = image_name 
-        print(image_hash) 
-
+        image_hash = row[0]
         # read ground truth mask image
         gt_path = os.path.join(groundtruth_masks_path, f"b-{image_hash}.png")
         if not os.path.exists(gt_path):
@@ -121,16 +131,18 @@ with open(test_csv_path, 'r') as file:
             recall = calculate_recall(gt_label == 1, pm_label == 1)
             precision = calculate_precision(gt_label == 1, pm_label == 1)
             hd = calculate_hd_skimage(gt_label, pm_label, segmentation_type="binary")
+            if hd == float('inf'):
+                hd = MAX_HD_VALUE
             
             # get names of gt and pm images without extension
-            gt_name = os.path.splitext(os.path.basename(gt_path))[0]
-            pm_name = os.path.splitext(os.path.basename(pm_path))[0]
+            gt_name = f"b-{image_hash}"
+            pm_name = f"pred-{image_hash}"
             
             # append the metrics to the metrics_list
             metrics_list.append((gt_name, pm_name, iou, f_score, recall, precision, hd))
         else:
             # if predicted mask does not exist, assign default values of 0 for fail
-            metrics_list.append((gt_name, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+            metrics_list.append((gt_name, "No_Pred_Mask", 0.0, 0.0, 0.0, 0.0, MAX_HD_VALUE))
         
         # print metrics: CAN COMMENT OUT
         print("Image_gt:", gt_name)

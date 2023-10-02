@@ -20,6 +20,8 @@ dict_colors = {
     3: (49, 205, 49), # jaw
 }
 
+MAX_HD_VALUE = 1100.0
+
 def calculate_iou(gt_mask, pred_mask):
     intersection = np.logical_and(gt_mask, pred_mask)
     union = np.logical_or(gt_mask, pred_mask)
@@ -27,26 +29,32 @@ def calculate_iou(gt_mask, pred_mask):
     return iou
 
 def calculate_f_score(gt_mask, pred_mask):
+    # if pred and groundtruth are empty then return 1.0 instead of nan
+    if np.sum(pred_mask) + np.sum(gt_mask) == 0:
+        return 1.0
     intersection = np.logical_and(gt_mask, pred_mask)
-    precision = np.sum(intersection) / np.sum(pred_mask)
-    recall = np.sum(intersection) / np.sum(gt_mask)
-    f_score = 2 * (precision * recall) / (precision + recall)
+    f_score = 2 * intersection / (np.sum(gt_mask) + np.sum(pred_mask))
     return f_score
 
 def calculate_recall(gt_mask, pred_mask):
+    if np.sum(gt_mask) == 0:
+        return np.nan
     intersection = np.logical_and(gt_mask, pred_mask)
     recall = np.sum(intersection) / np.sum(gt_mask)
     return recall
 
 def calculate_precision(gt_mask, pred_mask):
+    # precision is undefined when prediction is empty 
+    # but this returns 0.0 to avoid impact on rankings.
+    # returns nan when groundtruth is empty as well
+    if np.sum(pred_mask) == 0:
+        if np.sum(gt_mask) == 0:
+            return np.nan
+        else: 
+            return 0.0
     intersection = np.logical_and(gt_mask, pred_mask)
-    pred_positive_pixels = np.sum(pred_mask)
-    
-    if pred_positive_pixels == 0:
-        return 0.0  # return 0.0 if there are no predicted positive pixels
-    else:
-        precision = np.sum(intersection) / pred_positive_pixels
-        return precision
+    precision = np.sum(intersection) / np.sum(pred_mask)
+    return precision
 
 def convert_rgb2label(img_rgb, dict_colors):
     """
@@ -103,8 +111,7 @@ metrics_list_dict = {
 with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
     for row in reader:
-        image_name = row[0]
-        image_hash = image_name 
+        image_hash = row[0]
         # read ground truth mask
         gt_path = os.path.join(groundtruth_masks_path, f"p-{image_hash}.png")
         if not os.path.exists(gt_path):
@@ -122,20 +129,24 @@ with open(test_csv_path, 'r') as file:
 
         # loop through class labels and calculate metrics
         for class_label in range(1, len(dict_colors)):
-            iou = calculate_iou(gt == class_label, pm == class_label)
-            f_score = calculate_f_score(gt == class_label, pm == class_label)
-            recall = calculate_recall(gt == class_label, pm == class_label)
-            
-            if pm is not None and np.sum(pm == class_label) > 0:
+            if pm is not None:
+                iou = calculate_iou(gt == class_label, pm == class_label)
+                f_score = calculate_f_score(gt == class_label, pm == class_label)
+                recall = calculate_recall(gt == class_label, pm == class_label)    
                 precision = calculate_precision(gt == class_label, pm == class_label)
                 hd_distance = calculate_hd_skimage(gt == class_label, pm == class_label)
+                if hd_distance == float('inf'):
+                    hd_distance = MAX_HD_VALUE
             else:
+                iou = 0.0
+                f_score = 0.0
+                recall = 0.0
                 precision = 0.0
-                hd_distance = "nan"
+                hd_distance = MAX_HD_VALUE
             
             # calculate names for the classes
-            gt_name_class = f"p-{image_name}.png"
-            pm_name_class = f"pred-{image_hash}.png" if pm is not None else "No_Pred_Mask"
+            gt_name_class = f"p-{image_hash}"
+            pm_name_class = f"pred-{image_hash}" if pm is not None else "No_Pred_Mask"
             
             metrics_row = [gt_name_class, pm_name_class, iou, f_score, recall, precision, hd_distance]
             # append the metrics_row to the corresponding metrics list in the dictionary
