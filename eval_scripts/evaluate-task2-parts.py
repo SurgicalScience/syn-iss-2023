@@ -32,7 +32,7 @@ def calculate_f_score(gt_mask, pred_mask):
     # if pred and groundtruth are empty then return 1.0 instead of nan
     if np.sum(pred_mask) + np.sum(gt_mask) == 0:
         return 1.0
-    intersection = np.logical_and(gt_mask, pred_mask)
+    intersection = np.sum(np.logical_and(gt_mask, pred_mask))
     f_score = 2 * intersection / (np.sum(gt_mask) + np.sum(pred_mask))
     return f_score
 
