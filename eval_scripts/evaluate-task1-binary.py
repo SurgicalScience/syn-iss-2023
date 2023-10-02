@@ -17,16 +17,19 @@ metrics_csv_path = sys.argv[4]
 MAX_HD_VALUE = 1100.0
 
 def calculate_iou(gt_mask, pred_mask):
-    intersection = np.logical_and(gt_mask, pred_mask)
-    union = np.logical_or(gt_mask, pred_mask)
-    iou = np.sum(intersection) / np.sum(union)
+    union = np.sum(np.logical_or(gt_mask, pred_mask))
+    # if pred and groundtruth are empty then return 1.0 instead of nan
+    if union == 0:
+        return np.nan
+    intersection = np.sum(np.logical_and(gt_mask, pred_mask))
+    iou = intersection / union
     return iou
 
 def calculate_f_score(gt_mask, pred_mask):
     # if pred and groundtruth are empty then return 1.0 instead of nan
     if np.sum(pred_mask) + np.sum(gt_mask) == 0:
         return 1.0
-    intersection = np.logical_and(gt_mask, pred_mask)
+    intersection = np.sum(np.logical_and(gt_mask, pred_mask))
     f_score = 2 * intersection / (np.sum(gt_mask) + np.sum(pred_mask))
     return f_score
 
@@ -113,6 +116,7 @@ with open(test_csv_path, 'r') as file:
     # loop through each row in the CSV file
     for row in reader:
         image_hash = row[0]
+        print(f"Evaluating image: {image_hash} ...")
         # read ground truth mask image
         gt_path = os.path.join(groundtruth_masks_path, f"b-{image_hash}.png")
         if not os.path.exists(gt_path):
@@ -143,19 +147,11 @@ with open(test_csv_path, 'r') as file:
         else:
             # if predicted mask does not exist, assign default values of 0 for fail
             metrics_list.append((gt_name, "No_Pred_Mask", 0.0, 0.0, 0.0, 0.0, MAX_HD_VALUE))
-        
-        # print metrics: CAN COMMENT OUT
-        print("Image_gt:", gt_name)
-        print("Image_pm:", pm_name)
-        print("IOU:", iou)
-        print("F-Score:", f_score)
-        print("Recall:", recall)
-        print("Precision:", precision)
-        print("HD:", hd)
+
 
 full_csv_path = os.path.join(metrics_csv_path, "metrics.csv")
 
 with open(full_csv_path, "w", newline="") as csv_file:
     writer = csv.writer(csv_file)
-    writer.writerow(["Image_gt", "Image_pm", "IOU", "F-Score", "Recall", "Precision", "HD"])  # write header row
+    writer.writerow(["Image_gt", "Image_pm", "IOU", "DSC", "Recall", "Precision", "HD"])  # write header row
     writer.writerows(metrics_list)  

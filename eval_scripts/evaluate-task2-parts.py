@@ -23,16 +23,19 @@ dict_colors = {
 MAX_HD_VALUE = 1100.0
 
 def calculate_iou(gt_mask, pred_mask):
-    intersection = np.logical_and(gt_mask, pred_mask)
-    union = np.logical_or(gt_mask, pred_mask)
-    iou = np.sum(intersection) / np.sum(union)
+    union = np.sum(np.logical_or(gt_mask, pred_mask))
+    # if pred and groundtruth are empty then return nan
+    if union == 0:
+        return np.nan
+    intersection = np.sum(np.logical_and(gt_mask, pred_mask))
+    iou = intersection / union
     return iou
 
 def calculate_f_score(gt_mask, pred_mask):
     # if pred and groundtruth are empty then return 1.0 instead of nan
     if np.sum(pred_mask) + np.sum(gt_mask) == 0:
         return 1.0
-    intersection = np.logical_and(gt_mask, pred_mask)
+    intersection = np.sum(np.logical_and(gt_mask, pred_mask))
     f_score = 2 * intersection / (np.sum(gt_mask) + np.sum(pred_mask))
     return f_score
 
@@ -74,12 +77,14 @@ def convert_rgb2label(img_rgb, dict_colors):
         Background pixels (i.e. pixels not matching specified colors) have a
         value of 0.
     """
-    if img_rgb.shape[2] != 3:
+    if img_rgb.shape[2] < 3:
         raise(IndexError(f"Supplied RGB image has {img_rgb.shape[2]} dimensions instead of expected 3 dimensions."))
     
     img_label = np.zeros((img_rgb.shape[0], img_rgb.shape[1]), dtype=np.uint8)
     for k, v in dict_colors.items():
-        roi = np.all(img_rgb == v, axis=-1)
+        roi = ((img_rgb[:,:,0] == v[0])
+                & (img_rgb[:,:,1] == v[1])
+                & (img_rgb[:,:,2] == v[2]))
         img_label[roi] = k
     return img_label
 
@@ -112,6 +117,7 @@ with open(test_csv_path, 'r') as file:
     reader = csv.reader(file)
     for row in reader:
         image_hash = row[0]
+        print(f"Evaluating image: {image_hash} ...")
         # read ground truth mask
         gt_path = os.path.join(groundtruth_masks_path, f"p-{image_hash}.png")
         if not os.path.exists(gt_path):
@@ -157,6 +163,6 @@ for class_label in range(1, len(dict_colors)):
     class_metrics_csv_path = os.path.join(metrics_csv_path, f"class_{class_label}_metrics.csv")
     with open(class_metrics_csv_path, "w", newline="") as csv_file:
         writer = csv.writer(csv_file)
-        header_row = ["Image_gt", "Image_pm", "IOU", "F-Score", "Recall", "Precision", "HD"]
+        header_row = ["Image_gt", "Image_pm", "IOU", "DSC", "Recall", "Precision", "HD"]
         writer.writerow(header_row)  
         writer.writerows(metrics_list_dict[f"class_{class_label}"])  
