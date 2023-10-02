@@ -150,5 +150,5 @@ full_csv_path = os.path.join(metrics_csv_path, "metrics.csv")
 
 with open(full_csv_path, "w", newline="") as csv_file:
     writer = csv.writer(csv_file)
-    writer.writerow(["Image_gt", "Image_pm", "IOU", "F-Score", "Recall", "Precision", "HD"])  # write header row
+    writer.writerow(["Image_gt", "Image_pm", "IOU", "DSC", "Recall", "Precision", "HD"])  # write header row
     writer.writerows(metrics_list)  

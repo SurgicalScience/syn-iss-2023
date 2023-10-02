@@ -160,6 +160,6 @@ for class_label in range(1, len(dict_colors)):
     class_metrics_csv_path = os.path.join(metrics_csv_path, f"class_{class_label}_metrics.csv")
     with open(class_metrics_csv_path, "w", newline="") as csv_file:
         writer = csv.writer(csv_file)
-        header_row = ["Image_gt", "Image_pm", "IOU", "F-Score", "Recall", "Precision", "HD"]
+        header_row = ["Image_gt", "Image_pm", "IOU", "DSC", "Recall", "Precision", "HD"]
         writer.writerow(header_row)  
         writer.writerows(metrics_list_dict[f"class_{class_label}"])  
